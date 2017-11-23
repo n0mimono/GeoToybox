@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WireframeRenderer : MonoBehaviour {
-
+public class CommonRenderer : MonoBehaviour {
+  
   void Update() {
     var prop = new MaterialPropertyBlock ();
     prop.SetVector ("_WorldPosition", transform.position);

@@ -27,8 +27,8 @@ Material:
     - _HeightPower: 5
     - _RimAmplitude: 1.49
     - _RimPower: 1.85
-    - _Width: 0.003
+    - _Width: 0.001
     m_Colors:
     - _Color: {r: 0.10980393, g: 0.6431373, b: 0.6901961, a: 1}
-    - _RimTint: {r: 0.7352941, g: 0.647, b: 0.6487889, a: 1}
+    - _RimTint: {r: 1, g: 0.778, b: 0.25078768, a: 1}
     - _Tint: {r: 1, g: 1, b: 1, a: 1}
