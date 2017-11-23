@@ -1,4 +1,4 @@
-Shader "Wireframe/Collapse" {
+Shader "Wireframe/Box" {
   Properties {
     _MainTex ("Texture", 2D) = "white" {}
 
