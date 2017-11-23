@@ -6,8 +6,12 @@ Shader "Wireframe/Unlit" {
     _Color ("Color", Color) = (1,1,1,1)
     _Width ("Width", Float) = 0.005
 
-    [Header]
+    [Header(Surface)]
     _Tint ("Tint", Color) = (1,1,1,1)
+
+    [Header(Local)]
+    _HeightOffset ("Height Offest", Float) = 0
+    _HeightPower ("Height Power", Float) = 0
 
     [Header(Rim)]
     _RimPower ("Rim Power", Float) = 1
@@ -139,8 +143,12 @@ Shader "Wireframe/Unlit" {
       };
 
       sampler2D _MainTex; float4 _MainTex_ST;
+      float4 _WorldPosition;
 
       float4 _Tint;
+      float _HeightOffset;
+      float _HeightPower;
+
       float _RimPower;
       float _RimAmplitude;
       float4 _RimTint;
@@ -155,10 +163,12 @@ Shader "Wireframe/Unlit" {
         return o;
       }
 
+      float halpha(float y) {
+        return pow(y + _HeightOffset, _HeightPower);
+      }
+
       [maxvertexcount(3)]
       void geo(triangle v2f v[3], inout TriangleStream<v2f> TriStream) {
-        float3 normal = normalize(v[0].normal + v[1].normal + v[2].normal);
-
         for (int i = 0; i < 3; i++) {
           v2f o = v[i];
 
@@ -179,6 +189,7 @@ Shader "Wireframe/Unlit" {
 
         float4 col = tex2D(_MainTex, i.uv) * i.color * _Tint;
         col.rgb = col.rgb * _RimTint.a + rim * _RimTint.rgb;
+        col.a *= saturate(halpha(i.wpos.y - _WorldPosition.y));
 
         //UNITY_APPLY_FOG(i.fogCoord, col);
         return col;
