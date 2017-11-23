@@ -1,4 +1,4 @@
-# GeoToybox
+# GeoToybox (WIP)
 
 <img src="https://raw.githubusercontent.com/n0mimono/GeoToybox/master/Screenshots/ss.png" width="640">
 
