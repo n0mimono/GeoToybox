@@ -17,7 +17,7 @@
 /Assets/Standard Assets.meta
 /Assets/Standard Assets/
 
-# buit-in shaders
-/Assets/CGIncludes/
-/Assets/CGIncludes.meta
+# extra asset
+/Assets/Extras/
+/Assets/Extras.meta
 
