@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Wireframe_Box_skin
-  m_Shader: {fileID: 4800000, guid: 773f6f1085ab2493981e0e80435f27c5, type: 3}
+  m_Name: Wireframe_Fade_skin
+  m_Shader: {fileID: 4800000, guid: cc390aa1ada144e8494444c718372466, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -24,8 +24,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BoxScale: 0.007
-    - _HeightOffset: 0.46
-    - _HeightPower: 5
+    - _HeightAmp: 10
+    - _HeightOffset: -0.03
+    - _HeightPower: 2
     - _RimAmplitude: 1.49
     - _RimPower: 1.28
     - _Width: 0.001
