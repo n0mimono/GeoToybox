@@ -128,6 +128,7 @@ Shader "Wireframe/Ring" {
       #pragma fragment frag
       #pragma multi_compile_fog
       #include "UnityCG.cginc"
+      #include "noiseSimplex.cginc"
 
       struct appdata {
         float4 vertex : POSITION;
@@ -233,10 +234,11 @@ Shader "Wireframe/Ring" {
       float3 trans(float3 v, float scale) {
         float3 p = polar(v);
 
-        float w = 0.5;
+        float w = 1;
         float s = sin(p.z * w + _HeightOffset);
         float c = cos(p.z * w * 2 + _HeightOffset);
-        p.x = pow(s,1) + pow(c,3);
+        p.x = c + 0.1 + s;
+        p.yz += snoise(v) * 0.1;
 
         float3 q = rev(p);
         return lerp(q, v, scale);
