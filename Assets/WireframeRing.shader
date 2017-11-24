@@ -1,4 +1,4 @@
-Shader "Wireframe/Fade" {
+Shader "Wireframe/Ring" {
   Properties {
     _MainTex ("Texture", 2D) = "white" {}
 
@@ -218,10 +218,36 @@ Shader "Wireframe/Fade" {
         TriStream.RestartStrip();
       }
 
+      float3 polar(float3 v) {
+        float r = length(v);
+        return float3(r, acos(v.z/r), sign(v.y) * acos(v.x/length(v.xy)));
+      }
+      float3 rev(float3 p) {
+        return float3(
+          p.x * sin(p.y) * cos(p.z),
+          p.x * sin(p.y) * sin(p.z),
+          p.x * cos(p.y)
+        );
+      }
+
+      float3 trans(float3 v, float scale) {
+        float3 p = polar(v);
+
+        float w = 0.5;
+        float s = sin(p.z * w + _HeightOffset);
+        float c = cos(p.z * w * 2 + _HeightOffset);
+        p.x = pow(s,1) + pow(c,3);
+
+        float3 q = rev(p);
+        return lerp(q, v, scale);
+      }
+
       void geoBox(float scale, triangle v2f v[3], inout TriangleStream<v2f> TriStream) {
         float4 wpos = (v[0].wpos + v[1].wpos + v[2].wpos) / 3;
         float4 vertex = (v[0].vertex + v[1].vertex + v[2].vertex) / 3;
         float2 uv = (v[0].uv + v[1].uv + v[2].uv) / 3;
+
+        vertex.xyz = trans(vertex.xyz, scale);
 
         v2f o = v[0];
         o.uv = uv;
