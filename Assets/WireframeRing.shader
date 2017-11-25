@@ -17,6 +17,7 @@ Shader "Wireframe/Ring" {
     _HeightPower ("Height Power", Float) = 0
     _HeightAmp ("Height Amplitude", Float) = 1
     _OriginOffset ("Origin Offset", Vector) = (0,0,0,0)
+    _RingPower ("Ring Power", Vector) = (3,3,1,0)
 
     [Header(Rim)]
     _RimPower ("Rim Power", Float) = 1
@@ -157,6 +158,7 @@ Shader "Wireframe/Ring" {
       float _HeightPower;
       float _HeightAmp;
       float4 _OriginOffset;
+      float4 _RingPower;
 
       float _RimPower;
       float _RimAmplitude;
@@ -238,14 +240,15 @@ Shader "Wireframe/Ring" {
         float3 p = polar(v);
 
         float w = 2;
-        float s = sin(p.z * w + _HeightOffset + _Time.y);
         float c = cos(p.z * w + _HeightOffset + _Time.y);
-        float u = cos(p.y * w * 2 + _HeightOffset + _Time.y * 0.5);
+        float s = sin(p.z * w + _HeightOffset + _Time.y);
+        float u = cos(p.y * w * 2 + _HeightOffset + _Time.y * sin(_Time.x * 0.1));
+        float r = sin(p.y * w * 2 + _HeightOffset + _Time.y * sin(_Time.x * 0.1));
 
-        p.x = c * c * c * c + s * s * s + u;
-        scale *= saturate(p.x) * 3 + snoise(v) * 0.1;
+        p.x = c * c * c * c + s * s * s + u - s;
+        scale *= saturate(p.x) * 4 + snoise(v) * 0.2;
 
-        float3 q = rev(p) + pow(snoise(v) * 2, 2);
+        float3 q = rev(p) + pow(snoise(v) * 2, 3);
         return lerp(q, v, scale);
       }
 

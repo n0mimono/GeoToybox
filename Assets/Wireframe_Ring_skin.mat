@@ -33,4 +33,5 @@ Material:
     - _Color: {r: 0.10980393, g: 0.6431373, b: 0.6901961, a: 1}
     - _OriginOffset: {r: 0, g: 0.11, b: 0, a: 0}
     - _RimTint: {r: 0.7352941, g: 0.297, b: 0.6487889, a: 1}
+    - _RingPower: {r: 3, g: 3, b: 1, a: 0}
     - _Tint: {r: 1, g: 1, b: 1, a: 1}
