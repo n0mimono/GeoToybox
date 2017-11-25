@@ -16,6 +16,7 @@ Shader "Wireframe/Ring" {
     _HeightOffset ("Height Offest", Float) = 0
     _HeightPower ("Height Power", Float) = 0
     _HeightAmp ("Height Amplitude", Float) = 1
+    _OriginOffset ("Origin Offset", Vector) = (0,0,0,0)
 
     [Header(Rim)]
     _RimPower ("Rim Power", Float) = 1
@@ -155,6 +156,7 @@ Shader "Wireframe/Ring" {
       float _HeightOffset;
       float _HeightPower;
       float _HeightAmp;
+      float4 _OriginOffset;
 
       float _RimPower;
       float _RimAmplitude;
@@ -231,16 +233,19 @@ Shader "Wireframe/Ring" {
         );
       }
 
-      float3 trans(float3 v, float scale) {
+      float3 trans(float3 v, inout float scale) {
+        v += snoise(v * _Time.x) * 0.03;
         float3 p = polar(v);
 
-        float w = 1;
-        float s = sin(p.z * w + _HeightOffset);
-        float c = cos(p.z * w * 2 + _HeightOffset);
-        p.x = c + 0.1 + s;
-        p.yz += snoise(v) * 0.1;
+        float w = 2;
+        float s = sin(p.z * w + _HeightOffset + _Time.y);
+        float c = cos(p.z * w + _HeightOffset + _Time.y);
+        float u = cos(p.y * w * 2 + _HeightOffset + _Time.y * 0.5);
 
-        float3 q = rev(p);
+        p.x = c * c * c * c + s * s * s + u;
+        scale *= saturate(p.x) * 3 + snoise(v) * 0.1;
+
+        float3 q = rev(p) + pow(snoise(v) * 2, 2);
         return lerp(q, v, scale);
       }
 
@@ -249,7 +254,9 @@ Shader "Wireframe/Ring" {
         float4 vertex = (v[0].vertex + v[1].vertex + v[2].vertex) / 3;
         float2 uv = (v[0].uv + v[1].uv + v[2].uv) / 3;
 
-        vertex.xyz = trans(vertex.xyz, scale);
+        float3 d = _WorldPosition.xyz + _OriginOffset.xyz;
+        wpos.xyz = trans(wpos.xyz - d, scale) + d;
+        vertex.xyz = mul(unity_WorldToObject, float4(wpos.xyz, 1.0)).xyz;
 
         v2f o = v[0];
         o.uv = uv;
