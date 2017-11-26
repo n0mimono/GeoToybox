@@ -13,7 +13,7 @@ public class AudioBeat : MonoBehaviour {
   float scale;
 
   void Start() {
-    wave.OnUpdateVolume += (meter) => {
+    wave.OnUpdateVolume += (meter, t) => {
       for (int i = 0; i < trans.Length; i++) {
         trans[i].localScale = new Vector3(1f, 0f, 1f) + Vector3.up * meter[i] * scale;
       }

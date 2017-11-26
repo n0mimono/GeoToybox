@@ -25,6 +25,9 @@ Shader "Wireframe/Ring" {
     _RimPower ("Rim Power", Float) = 1
     _RimAmplitude ("Rim Amplitude", Float) = 1
     _RimTint ("Rim Tint", Color) = (1,1,1,1)
+
+    [Header(Sound)]
+    [Toggle] _UseSound ("Use Sound", Float) = 1
   }
 
   SubShader {
@@ -153,6 +156,8 @@ Shader "Wireframe/Ring" {
       sampler2D _MainTex; float4 _MainTex_ST;
       float4 _WorldPosition;
 
+      float _SoundTime;
+
       float4 _Tint;
       float _BoxScale;
 
@@ -168,6 +173,8 @@ Shader "Wireframe/Ring" {
       float _RimPower;
       float _RimAmplitude;
       float4 _RimTint;
+
+      float _UseSound;
 
       v2f vert (appdata v) {
         v2f o;
@@ -241,17 +248,32 @@ Shader "Wireframe/Ring" {
         );
       }
 
+      float4 time() {
+        if (_UseSound == 1) {
+          return float4(
+            _SoundTime / 20,
+            _SoundTime,
+            _SoundTime * 2,
+            _SoundTime * 3
+          );
+        } else {
+          return _Time;
+        }
+      }
+
       float3 trans(float3 v, inout float scale) {
-        v += snoise(v * _Time.x) * 0.02;
+        float4 t = time();
+
+        v += snoise(v * t.x) * 0.02;
         float3 p = polar(v);
 
         float w0 = 1;
         float w1 = 1;
         float4 m = float4(
-          cos(p.z * w0 * _RingFreq.x + _HeightOffset + w1 * _Time.y),
-          sin(p.z * w0 * _RingFreq.y + _HeightOffset + w1 * _Time.y),
-          cos(p.y * w0 * _RingFreq.z + _HeightOffset + w1 * _Time.y * sin(_Time.x * 0.09)),
-          sin(p.y * w0 * _RingFreq.w + _HeightOffset + w1 * _Time.y * sin(_Time.x * 0.05))
+          cos(p.z * w0 * _RingFreq.x + _HeightOffset + w1 * t.y),
+          sin(p.z * w0 * _RingFreq.y + _HeightOffset + w1 * t.y),
+          cos(p.y * w0 * _RingFreq.z + _HeightOffset + w1 * t.y * sin(t.x * 0.09)),
+          sin(p.y * w0 * _RingFreq.w + _HeightOffset + w1 * t.y * sin(t.x * 0.05))
         );
 
         p.x = m.x*m.x*m.x * _RingAmp.x + m.y*m.y*m.y * _RingAmp.y + m.z * _RingAmp.z + m.w * _RingAmp.w;

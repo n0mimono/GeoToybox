@@ -8,7 +8,7 @@ public class AudioWave : MonoBehaviour {
 
   AudioSource source;
 
-  public delegate void UpdateVolumeHandler(float[] meter);
+  public delegate void UpdateVolumeHandler(float[] meter, float time);
   public event UpdateVolumeHandler OnUpdateVolume;
 
   float[] spec = new float[1024];
@@ -36,7 +36,7 @@ public class AudioWave : MonoBehaviour {
     }
 
     if (OnUpdateVolume != null) {
-      OnUpdateVolume (smooth);
+      OnUpdateVolume (smooth, source.time);
     }
   }
 

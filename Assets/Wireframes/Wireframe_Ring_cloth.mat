@@ -31,12 +31,13 @@ Material:
     - _RimPower: 1.28
     - _RingOffset: 0
     - _TriOffset: 0.11
+    - _UseSound: 1
     - _Width: 0.001
     - __TriOffset: 0
     m_Colors:
-    - _Color: {r: 1, g: 0.7461073, b: 0.7999257, a: 1}
+    - _Color: {r: 0.747, g: 0.678, b: 0.89705884, a: 1}
     - _OriginOffset: {r: 0, g: 0.11, b: 0, a: 0}
-    - _RimTint: {r: 0.7352941, g: 0.297, b: 0.6487889, a: 1}
+    - _RimTint: {r: 0.6014273, g: 0.75735295, b: 0.6555993, a: 1}
     - _Ring: {r: 1, g: 0.4, b: 0.8, a: 0.9}
     - _RingAmp: {r: 3, g: 3, b: 1, a: 0}
     - _RingFreq: {r: 1, g: 0.4, b: 0.8, a: 0.9}
