@@ -1,4 +1,4 @@
-Shader "Wireframe/Ring" {
+Shader "Wireframe/Circle" {
   Properties {
     _MainTex ("Texture", 2D) = "white" {}
 
@@ -17,10 +17,6 @@ Shader "Wireframe/Ring" {
     _HeightPower ("Height Power", Float) = 0
     _HeightAmp ("Height Amplitude", Float) = 1
     _OriginOffset ("Origin Offset", Vector) = (0,0,0,0)
-    _RingFreq ("Ring Freqency", Vector) = (1, 0.4, 0.8, 0.9)
-    _RingAmp ("Ring Amplitude", Vector) = (3, 3, 0, 0)
-    _RingOffset ("Ring Offset", Float) = 0
-    _Noise ("Noise", Vector) = (1,1,0.02,0.2)
 
     [Header(Rim)]
     _RimPower ("Rim Power", Float) = 1
@@ -167,11 +163,6 @@ Shader "Wireframe/Ring" {
       float _HeightAmp;
       float4 _OriginOffset;
 
-      float4 _RingFreq;
-      float4 _RingAmp;
-      float _RingOffset;
-      float4 _Noise;
-
       float _RimPower;
       float _RimAmplitude;
       float4 _RimTint;
@@ -265,25 +256,14 @@ Shader "Wireframe/Ring" {
 
       float3 trans(float3 v, inout float scale) {
         float4 t = time();
-
-        v += snoise(v * t.x) * _Noise.z;
         float3 p = polar(v);
 
-        float w0 = 1;
-        float w1 = 1;
-        float4 m = float4(
-          cos(p.z * w0 * _RingFreq.x + _HeightOffset + w1 * t.y),
-          sin(p.z * w0 * _RingFreq.y + _HeightOffset + w1 * t.y),
-          cos(p.y * w0 * _RingFreq.z + _HeightOffset + w1 * t.y * sin(t.x * 0.09)),
-          sin(p.y * w0 * _RingFreq.w + _HeightOffset + w1 * t.y * sin(t.x * 0.05))
-        );
+        float c0 = cos(2 * p.y + _Time.x);
+        float c1 = cos(4 * p.y + _Time.x);
+        p.x = c0 * c0 * c0 * c0 + c1 * c1;
 
-        p.x = m.x*m.x*m.x * _RingAmp.x + m.y*m.y*m.y * _RingAmp.y + m.z * _RingAmp.z + m.w * _RingAmp.w;
-        p.x += _RingOffset;
-        scale *= saturate(p.x) * 6 + snoise(v) * _Noise.w;
-
-        float3 q = rev(p) + _Noise.x * pow(snoise(v * _Noise.y) * 2, 3);
-        return lerp(q, v, scale);
+        float3 q = rev(p);
+        return q; //lerp(q, v, scale);
       }
 
       void geoBox(float scale, triangle v2f v[3], inout TriangleStream<v2f> TriStream) {

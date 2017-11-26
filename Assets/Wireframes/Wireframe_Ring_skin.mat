@@ -36,6 +36,7 @@ Material:
     - __TriOffset: 0
     m_Colors:
     - _Color: {r: 0.778, g: 1, b: 0.666, a: 1}
+    - _Noise: {r: 1, g: 1, b: 0.02, a: 0.2}
     - _OriginOffset: {r: 0, g: 0.11, b: 0, a: 0}
     - _RimTint: {r: 0.6014273, g: 0.75735295, b: 0.6555993, a: 1}
     - _Ring: {r: 1, g: 0.4, b: 0.8, a: 0.9}
