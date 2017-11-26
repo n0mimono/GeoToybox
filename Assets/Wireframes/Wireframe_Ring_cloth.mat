@@ -30,7 +30,9 @@ Material:
     - _RimAmplitude: 1.49
     - _RimPower: 1.28
     - _RingOffset: 0
+    - _TriOffset: 0.11
     - _Width: 0.001
+    - __TriOffset: 0
     m_Colors:
     - _Color: {r: 1, g: 0.7461073, b: 0.7999257, a: 1}
     - _OriginOffset: {r: 0, g: 0.11, b: 0, a: 0}

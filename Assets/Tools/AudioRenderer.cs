@@ -25,7 +25,7 @@ public class AudioRenderer : MonoBehaviour {
       1f * Mathf.Cos(2f * Mathf.PI * Time.time / 35f),
       1f * Mathf.Sin(2f * Mathf.PI * Time.time / 55f)
     );
-    float height = -0.2f - Mathf.PingPong (Time.time, 120f) / 120f;
+    float height = -0.2f - Mathf.PingPong (Time.time, 120f) / 120f - volume + 0.4f;
 
     var prop = new MaterialPropertyBlock ();
     prop.SetVector ("_WorldPosition", transform.position);
