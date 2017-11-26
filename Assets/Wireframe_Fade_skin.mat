@@ -25,12 +25,12 @@ Material:
     m_Floats:
     - _BoxScale: 0.007
     - _HeightAmp: 10
-    - _HeightOffset: -0.54
+    - _HeightOffset: -0.44
     - _HeightPower: 2
     - _RimAmplitude: 1.49
     - _RimPower: 1.28
     - _Width: 0.001
     m_Colors:
-    - _Color: {r: 0.10980393, g: 0.6431373, b: 0.6901961, a: 1}
+    - _Color: {r: 0.2370242, g: 0.944894, b: 1, a: 1}
     - _RimTint: {r: 0.7352941, g: 0.297, b: 0.6487889, a: 1}
     - _Tint: {r: 1, g: 1, b: 1, a: 1}

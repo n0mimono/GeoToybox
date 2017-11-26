@@ -17,7 +17,7 @@ Shader "Wireframe/Ring" {
     _HeightPower ("Height Power", Float) = 0
     _HeightAmp ("Height Amplitude", Float) = 1
     _OriginOffset ("Origin Offset", Vector) = (0,0,0,0)
-    _RingPower ("Ring Power", Vector) = (3,3,1,0)
+    _Ring ("Ring", Vector) = (1,1,1,1)
 
     [Header(Rim)]
     _RimPower ("Rim Power", Float) = 1
@@ -158,7 +158,7 @@ Shader "Wireframe/Ring" {
       float _HeightPower;
       float _HeightAmp;
       float4 _OriginOffset;
-      float4 _RingPower;
+      float4 _Ring;
 
       float _RimPower;
       float _RimAmplitude;
@@ -225,7 +225,8 @@ Shader "Wireframe/Ring" {
 
       float3 polar(float3 v) {
         float r = length(v);
-        return float3(r, acos(v.z/r), sign(v.y) * acos(v.x/length(v.xy)));
+        float r2 = length(v.xy);
+        return float3(r, acos(v.z/r), sign(v.y) * acos(v.x/r2));
       }
       float3 rev(float3 p) {
         return float3(
@@ -236,17 +237,20 @@ Shader "Wireframe/Ring" {
       }
 
       float3 trans(float3 v, inout float scale) {
-        v += snoise(v * _Time.x) * 0.03;
+        v += snoise(v * _Time.x) * 0.02;
         float3 p = polar(v);
 
         float w = 2;
-        float c = cos(p.z * w + _HeightOffset + _Time.y);
-        float s = sin(p.z * w + _HeightOffset + _Time.y);
-        float u = cos(p.y * w * 2 + _HeightOffset + _Time.y * sin(_Time.x * 0.1));
-        float r = sin(p.y * w * 2 + _HeightOffset + _Time.y * sin(_Time.x * 0.1));
+        float4 m = float4(
+          cos(p.z * w * 1.0 + _HeightOffset + _Time.y),
+          sin(p.z * w * 0.4 + _HeightOffset + _Time.y),
+          cos(p.y * w * 0.8 + _HeightOffset + _Time.y * sin(_Time.x * 0.09)),
+          sin(p.y * w * 0.9 + _HeightOffset + _Time.y * sin(_Time.x * 0.05))
+        );
 
-        p.x = c * c * c * c + s * s * s + u - s;
-        scale *= saturate(p.x) * 4 + snoise(v) * 0.2;
+        p.x = _Ring.x * m.x*m.x*m.x + _Ring.y * m.y*m.y*m.y + _Ring.z * m.z + _Ring.w * m.w;
+        //p.x = c * c * c - s * s * s + u + r;
+        scale *= saturate(p.x) * 6 + snoise(v) * 0.2;
 
         float3 q = rev(p) + pow(snoise(v) * 2, 3);
         return lerp(q, v, scale);
@@ -301,7 +305,7 @@ Shader "Wireframe/Ring" {
       void geo(triangle v2f v[3], inout TriangleStream<v2f> TriStream) {
         float4 wpos = (v[0].wpos + v[1].wpos + v[2].wpos) / 3;
 
-        float th = wpos.y - _WorldPosition.y + _HeightOffset;
+        float th = wpos.y - _WorldPosition.y + _HeightOffset + snoise(wpos).x * 0.2;
         float scale = saturate(pow(abs(th) * _HeightAmp, _HeightPower));
         if (th > 0) {
           if (scale > 0.99) {
