@@ -1,5 +1,5 @@
 # GeoToybox
-<img src="https://raw.githubusercontent.com/n0mimono/GeoToybox/master/Screenshots/ss5.png" width="640">
+<img src="https://raw.githubusercontent.com/n0mimono/GeoToybox/master/Screenshots/ss7.png" width="640">
 
 ## Geometry-art
 
