@@ -25,7 +25,7 @@ Material:
     m_Floats:
     - _BoxScale: 0.007
     - _HeightAmp: 10
-    - _HeightOffset: -0.44
+    - _HeightOffset: 0.17
     - _HeightPower: 2
     - _RimAmplitude: 1.49
     - _RimPower: 1.28
