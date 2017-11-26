@@ -261,6 +261,7 @@ Shader "Wireframe/Circle" {
         float c0 = cos(2 * p.y + _Time.x);
         float c1 = cos(4 * p.y + _Time.x);
         p.x = c0 * c0 * c0 * c0 + c1 * c1;
+        p.x *= 4;
 
         float3 q = rev(p);
         return q; //lerp(q, v, scale);
