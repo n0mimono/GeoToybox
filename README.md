@@ -1,6 +1,6 @@
 # GeoToybox
 
-<img src="https://raw.githubusercontent.com/n0mimono/GeoToybox/master/Screenshots/ss10.png" width="640">
+<img src="https://raw.githubusercontent.com/n0mimono/GeoToybox/master/Screenshots/ss11.png" width="640">
 
 ## Geometry-art
 
