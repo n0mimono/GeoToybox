@@ -268,6 +268,9 @@ Shader "Wireframe/Ring" {
 
         v += snoise(v * t.x) * _Noise.z;
         float3 p = polar(v);
+        if (_UseSound == 1) {
+          _Noise *= scale * 3 + sin(t.x);
+        }
 
         float w0 = 1;
         float w1 = 1;
