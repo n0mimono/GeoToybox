@@ -8,3 +8,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Demo.unity
     guid: 225b2c599a25f48b3a4ec01593536e18
+  - enabled: 0
+    path: Assets/Test/TestWireframe.unity
+    guid: e38fab0887cdf4324a9b49cfadeee953
