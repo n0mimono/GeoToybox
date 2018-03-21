@@ -3,6 +3,7 @@
 <img src="https://raw.githubusercontent.com/n0mimono/GeoToybox/master/Screenshots/ss11.png" width="640">
 
 Demo: https://www.youtube.com/watch?v=BglEgywaAPw
+
 Demo app for mac: https://github.com/n0mimono/GeoToybox/raw/master/Demo_for_Mac.zip
 
 ## Geometry-art
